@@ -10,7 +10,7 @@ import Login from './src/Login';
 
 
 
-// const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
 // function App() {
 //   return (

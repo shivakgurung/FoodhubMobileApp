@@ -1,2 +1,4 @@
 import WelcomeCard from './WelcomeCard';
-export {WelcomeCard};
+import Separator from './Separator';
+import ToggleButton from './ToggleButton';
+export {WelcomeCard, Separator, ToggleButton};

@@ -14,6 +14,9 @@ const SplashScreen = () => {
       <Image source={Images.PLATE} resizeMode="contain" style={styles.image} />
       <Text style={styles.titleText}>Foodhub</Text>
     </View>
+    // <View>
+    //   <Text>Check splash</Text>
+    // </View>
   );
 };
 
