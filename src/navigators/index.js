@@ -8,11 +8,12 @@ import {
   SplashScreen,
   WelcomeScreen,
 } from '../screens';
-import HomeScreen from '../Home';
 import Login from '../Login';
 import Signup from '../Signup';
 import RegisterPhoneScreen from '../screens/RegisterPhoneScreen';
 import VerificationScreen from '../screens/VerificationScreen';
+import Home from '../Home';
+import HomeScreen from '../screens/HomeScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,7 +23,7 @@ const Navigators = () => {
       <Stack.Navigator screenOptions={{headerShown: false}}>
         {/* <Stack.Screen name="Splash" component={SplashScreen} /> */}
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={Home} />
         {/* <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Login" component={Login} /> */}
         {/* <Stack.Screen name="Signup" component={Signup} /> */}
@@ -40,6 +41,7 @@ const Navigators = () => {
           name="VerificationScreen"
           component={VerificationScreen}
         />
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

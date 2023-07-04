@@ -7,7 +7,7 @@ import {darkGreen, green} from './consts';
 // import Feather from 'react-native-vector-icons/Feather';
 import Icon from 'react-native-vector-icons/AntDesign';
 
-export default function HomeScreen(props) {
+export default function Home(props) {
   return (
     <Background>
       <StatusBar
@@ -19,7 +19,7 @@ export default function HomeScreen(props) {
         <Text style={{color: '#FFFFFF', fontSize: 50, marginBottom: 40}}>
           Your Flavors, Our Delivery
         </Text>
-        <Icon name="user" size={22} color="black" />
+        {/* <Icon name="user" size={22} color="black" /> */}
         <Btn
           bgColor={green}
           textColor="white"

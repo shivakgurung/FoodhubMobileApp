@@ -11,40 +11,42 @@ import {
 import {Separator, ToggleButton} from '../components';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Feather from 'react-native-vector-icons/Feather';
-// import {Colors, Fonts, Images} from '../constants';
 import {Colors, Fonts, Images} from '../constants';
 import {Display} from '../utils';
 // import {AuthenicationService, StorageService} from '../services';
-// import LottieView from 'lottie-react-native';
+import {AuthenticationService} from '../services';
+import LottieView from 'lottie-react-native';
 // import {useDispatch, useSelector} from 'react-redux';
 // import {GeneralAction} from '../actions';
 
 const SigninScreen = ({navigation}) => {
   const [isPasswordShow, setIsPasswordShow] = useState(false);
-  //   const [username, setUsername] = useState('');
-  //   const [password, setPassword] = useState('');
-  //   const [isLoading, setIsLoading] = useState(false);
-  //   const [errorMessage, setErrorMessage] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   //   const dispatch = useDispatch();
 
-  //   const signIn = async () => {
-  //     setIsLoading(true);
-  //     let user = {
-  //       username,
-  //       password,
-  //     };
-  //     AuthenicationService.login(user).then(response => {
-  //       setIsLoading(false);
-  //       if (response?.status) {
-  //         StorageService.setToken(response?.data).then(() => {
-  //           dispatch(GeneralAction.setToken(response?.data));
-  //         });
-  //       } else {
-  //         setErrorMessage(response?.message);
-  //       }
-  //     });
-  //   };
+  const signIn = async () => {
+    setIsLoading(true);
+    let user = {
+      email,
+      password,
+    };
+    AuthenticationService.login(user).then(response => {
+      setIsLoading(false);
+      console.log(response.status);
+      if (response?.status == 200) navigation.navigate('HomeScreen');
+      if (response?.status) {
+        // StorageService.setToken(response?.data).then(() => {
+        //   dispatch(GeneralAction.setToken(response?.data));
+        // });
+      } else {
+        setErrorMessage(response?.message);
+      }
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -64,7 +66,7 @@ const SigninScreen = ({navigation}) => {
       </View>
       <Text style={styles.title}>Welcome</Text>
       <Text style={styles.content}>
-        Enter your username and password, and enjoy ordering food
+        Enter your email and password, and enjoy ordering food
       </Text>
       <View style={styles.inputContainer}>
         <View style={styles.inputSubContainer}>
@@ -75,11 +77,11 @@ const SigninScreen = ({navigation}) => {
             style={{marginRight: 10}}
           />
           <TextInput
-            placeholder="Username"
+            placeholder="Email"
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
-            // onChangeText={text => setUsername(text)}
+            onChangeText={text => setEmail(text)}
           />
         </View>
       </View>
@@ -98,7 +100,7 @@ const SigninScreen = ({navigation}) => {
             placeholderTextColor={Colors.DEFAULT_GREY}
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
-            // onChangeText={text => setPassword(text)}
+            onChangeText={text => setPassword(text)}
           />
           <Feather
             name={isPasswordShow ? 'eye' : 'eye-off'}
@@ -109,7 +111,7 @@ const SigninScreen = ({navigation}) => {
           />
         </View>
       </View>
-      {/* <Text style={styles.errorMessage}>{errorMessage}</Text> */}
+      <Text style={styles.errorMessage}>{errorMessage}</Text>
       <View style={styles.forgotPasswordContainer}>
         <View style={styles.toggleContainer}>
           <ToggleButton size={0.7} />
@@ -123,13 +125,17 @@ const SigninScreen = ({navigation}) => {
       </View>
       <TouchableOpacity
         style={styles.signinButton}
-        // onPress={() => signIn()}
+        onPress={() => signIn()}
         activeOpacity={0.8}>
-        {/* {isLoading ? (
+        {isLoading ? (
           <LottieView source={Images.LOADING} autoPlay />
-        ) : ( */}
-        <Text style={styles.signinButtonText}>Sign In</Text>
-        {/* // )} */}
+        ) : (
+          <Text
+            // onPress={() => navigation.navigate('HomeScreen')}
+            style={styles.signinButtonText}>
+            Sign In
+          </Text>
+        )}
       </TouchableOpacity>
       <View style={styles.signupContainer}>
         <Text style={styles.accountText}>Don't have an account?</Text>

@@ -14,8 +14,8 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Separator} from '../components';
 import {Display} from '../utils';
 import Feather from 'react-native-vector-icons/Feather';
-// import {AuthenicationService} from '../services';
-// import LottieView from 'lottie-react-native';
+import {AuthenticationService} from '../services';
+import LottieView from 'lottie-react-native';
 
 const inputStyle = state => {
   switch (state) {
@@ -66,6 +66,7 @@ const SignupScreen = ({navigation}) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [usernameErrorMessage, setUsernameErrorMessage] = useState('');
@@ -73,25 +74,27 @@ const SignupScreen = ({navigation}) => {
   const [emailState, setEmailState] = useState('default');
   const [usernameState, setUsernameState] = useState('default');
 
-  //   const register = () => {
-  //     let user = {
-  //       username,
-  //       email,
-  //       password,
-  //     };
-  //     setIsLoading(true);
-  //     AuthenicationService.register(user).then(response => {
-  //       setIsLoading(false);
-  //       if (!response?.status) {
-  //         setErrorMessage(response?.message);
-  //       }
-  //     });
-  //     // navigation.navigate('RegisterPhone')
-  //   };
+  const register = () => {
+    let user = {
+      username,
+      email,
+      password,
+    };
+    setIsLoading(true);
+    AuthenticationService.register(user).then(response => {
+      setIsLoading(false);
+      console.log(response);
+      if (!response?.status) {
+        setErrorMessage(response?.message);
+      }
+      if (response?.status === 201) navigation.navigate('RegisterPhoneScreen');
+    });
+    console.log(user);
+  };
 
   const checkUserExist = async (type, value) => {
     if (value?.length > 0) {
-      AuthenicationService.checkUserExist(type, value).then(response => {
+      AuthenticationService.checkUserExist(type, value).then(response => {
         if (response?.status) {
           type === 'email' && emailErrorMessage
             ? setEmailErrorMessage('')
@@ -148,9 +151,9 @@ const SignupScreen = ({navigation}) => {
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
             onChangeText={text => setUsername(text)}
-            onEndEditing={({nativeEvent: {text}}) =>
-              checkUserExist('username', text)
-            }
+            // onEndEditing={({nativeEvent: {text}}) =>
+            //   checkUserExist('username', text)
+            // }
           />
           {showMarker(usernameState)}
         </View>
@@ -170,9 +173,9 @@ const SignupScreen = ({navigation}) => {
             selectionColor={Colors.DEFAULT_GREY}
             style={styles.inputText}
             onChangeText={text => setEmail(text)}
-            onEndEditing={({nativeEvent: {text}}) =>
-              checkUserExist('email', text)
-            }
+            // onEndEditing={({nativeEvent: {text}}) =>
+            //   checkUserExist('email', text)
+            // }
           />
           {showMarker(emailState)}
         </View>
@@ -204,14 +207,12 @@ const SignupScreen = ({navigation}) => {
         </View>
       </View>
       <Text style={styles.errorMessage}>{errorMessage}</Text>
-      <TouchableOpacity
-        style={styles.signinButton}
-        onPress={() => navigation.navigate('RegisterPhoneScreen')}>
-        {/* {isLoading ? (
+      <TouchableOpacity style={styles.signinButton} onPress={() => register()}>
+        {isLoading ? (
           <LottieView source={Images.LOADING} autoPlay />
-        ) : ( */}
-        <Text style={styles.signinButtonText}>Create Account</Text>
-        {/* )} */}
+        ) : (
+          <Text style={styles.signinButtonText}>Create Account</Text>
+        )}
       </TouchableOpacity>
       <Text style={styles.orText}>OR</Text>
       <TouchableOpacity style={styles.facebookButton}>
@@ -357,12 +358,13 @@ const styles = StyleSheet.create({
     width: 18,
   },
   errorMessage: {
-    fontSize: 10,
+    fontSize: 13,
     lineHeight: 10 * 1.4,
     color: Colors.DEFAULT_RED,
     fontFamily: Fonts.POPPINS_MEDIUM,
     marginHorizontal: 20,
     marginVertical: 3,
+    marginTop: 7,
   },
 });
 
